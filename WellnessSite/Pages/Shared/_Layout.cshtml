@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WellnessSite</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WellnessSite.styles.css" asp-append-version="true" />
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    <link rel="stylesheet" href="~/css/@(Data.UsefulFunctions.GetAccessibilityStylesheet(HttpContextAccessor)).css" asp-append-version="true" />
+    
+    
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <header>
+        @{
+            string size;
+            if(ViewData["Prefs"] != null)
+            {
+                double value = Convert.ToDouble(ViewData["Prefs"].ToString().Split(',')[12]);
+                switch (value)
+                {
+                    case var ex when value > 20:
+                        size = "xl";
+                        break;
+                    case var ex when value > 15:
+                        size = "lg";
+                        break;
+                    case var ex when value > 10:
+                        size="md";
+                        break;
+                    case var ex when value > 5:
+                        size = "sm";
+                        break;
+                    default:
+                        size = "md";
+                        break;
+                }
+            }
+            else{
+                size = "md";
+            }
+            
+        <nav class="navbar navbar-expand-@size navbar-toggleable-@size border-bottom box-shadow">
+            <div class="container">
+            <img src="/img/logo.png" alt-text="logo" class="logo" />
+            <a class="navbar-brand" asp-area="" asp-page="/Index">Community Care Hub</a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-@size-inline-flex justify-content-between">
+                    <ul class="navbar-nav /*flex-grow-1*/">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Services/Index">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Contact/Index">Contact</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav /*flex-grow-1*/">
+                        @using Microsoft.AspNetCore.Identity;
+                        @using WellnessSite.Data;
+                        @inject SignInManager<ApplicationUser> SignInManager;
+                        @inject UserManager<ApplicationUser> UserManager;
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/auth/Profile">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/auth/Logout">Logout</a>
+                            </li>
+                            if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "OrgAdmin") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Admin/Index">Admin</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/auth/Index">Login / Register</a>
+                                </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Accessibility">Accessibility</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        }
+    </header>
+
+    <div class="container bodycontainer">
+        <main role="main">
+
+            @if(ViewData["Layout"] != null && ViewData["Layout"].ToString() == "Img") {
+            <div class="row row-img-bg">
+                <div class="col col-1 col-md-2 bg-transparent"></div>
+                <div class="col col-1 col-md-1"></div>
+                <div class="col col-8 col-md-6">
+                    @RenderBody()
+                </div>
+                <div class="col col-1 col-md-1"></div>
+                <div class="col col-1 col-md-2 bg-transparent"></div>
+            </div>
+            }
+            else {
+				@RenderBody()
+            }
+                    
+
+        </main>
+    </div>
+
+    <footer class="@*border-top*@ footer">
+        <nav class="navbar navbar-expand-md navbar-toggleable-md">
+            <div class="container">
+                <div class="navbar-collapse d-md-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Services/Index">A-Z</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Contact/Index">Contact</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav flex-grow-1">
+                        @using Microsoft.AspNetCore.Identity;
+                        @using WellnessSite.Data;
+                        @inject SignInManager<ApplicationUser> SignInManager;
+                        @inject UserManager<ApplicationUser> UserManager;
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/auth/Profile">Profile</a>
+                            </li>
+                            if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "OrgAdmin") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Admin/Index">Admin</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/auth/Index">Login / Register</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Accessibility">Accessibility</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy Policy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        changeColours('@(ViewData["Prefs"])'.split(","));
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,176 @@
+html {
+  font-size: var(--textSize);
+  min-height:100%;
+}
+
+html {
+  /*position: relative;*/
+  /*min-height: 100%;*/
+}
+
+body {
+    background-color: var(--backColour);
+    min-height: 100%;
+    background-size: cover;
+}
+
+:root {
+    --text: #000000;
+    --highColour: #00ffff;
+    --backColour: #ffffff;
+    --headColour: #f8ae51;
+    --headText: #ffffff;
+    --footColour: #164d61;
+    --footText: #ffffff;
+    --linkColour: #0000ff;
+    --textSize: 15px;
+    --hex1: #cdd24e;
+    --hex2: #c1c8b0;
+    --hexColour: #000000;
+    --hexHover: #FFFF99;
+}
+
+header{
+    background-color:var(--headColour);
+    color:var(--headText);
+}
+header:any-link, header a, header .nav-link{
+    color:var(--headText);
+}
+
+header:any-link:hover, header a:hover, header .nav-link:hover{
+    color:var(--headText)
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")
+}
+
+main{
+    background-color:var(--backColour);
+    color:var(--text);
+}
+
+footer{
+    background-color:var(--footColour);
+    color:var(--footText);
+}
+
+footer:any-link, footer a, footer .nav-link{
+    color:var(--footText);
+}
+
+footer:any-link:hover, footer a:hover, footer .nav-link:hover{
+    color:var(--footTextAlt);
+}
+
+.service-image{
+    width:100%;
+}
+
+main {
+    min-height: calc(100vh - calc(var(--textSize)*8));
+}
+
+.row-img-bg {
+    min-height: calc(100vh - calc(var(--textSize)*8));
+    height:contain;
+}
+
+.row-img-bg .col {
+    background-color:var(--backColour);
+    padding:10px;
+}
+
+header, nav, footer {
+    min-height: calc(var(--textSize)*4);
+}
+
+.logo {
+    height: calc((var(--textSize)*4) - 26px);
+}
+
+main {
+    background-color: transparent;
+    padding-bottom: 0px;
+}
+
+.edit-image{
+    width:100px;
+}
+
+.cookies-box{
+    width:50%;
+    min-height:10%;
+    padding:10px;
+    background-color:pink;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    align-content:center;
+}
+
+.cookie-abs {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 0 10px 0 0;
+}
+
+.cookie-buttons{
+    display:block;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.service-row{
+    overflow-wrap:break-word;
+}
+
+.centre{
+    text-align:center;
+}
+
+nav {
+    letter-spacing: -1px;
+}
+
+nav .container{
+    width:100%;
+    margin-left:0px;
+    margin-right:0px;
+}
+
+.navbar-brand{
+    letter-spacing:-2px;
+}
+
+.left{
+    display:block;
+    float:left;
+}
+
+.a-z-button{
+    width:calc(var(--textSize)*2);
+    text-align:center;
+    padding-left:0px;
+    padding-right:0px;
+}
+
+#secQs{
+    display:none;
+}
+
+/*.form-control { This removes the border of input forms, so I just am not including it.
+    border: initial;
+}
+*/
+
+#AboutSegment {
+    background-color: #C1C8B0;
+}
+
+#BookmarkCarousel {
+    padding-left: 10px;
+    padding-right: 10px;
+}

@@ -1,0 +1,116 @@
+﻿@page
+@model WellnessSite.Pages.Services.ServiceModel
+
+@{
+    ViewData["Title"] = "Service";
+    ViewData["Prefs"] = Model.p.ToString();
+    ViewData["Layout"] = "Img";
+}
+
+<h1>Service</h1>
+<a asp-page="./Index" class=" btn btn-info">Return to A-Z</a>
+<div>
+    <h4>@Model.Service.Name - @Model.Service.Category</h4>
+    @if (Model.user != null)
+    {
+            <form method="post">
+                <button asp-page-handler="Bookmark" asp-route-id="@Model.id" class="btn btn-@(Model.Bookmarked ? "danger" : "success")">@(Model.Bookmarked ? "Unb" : "B")ookmark Service</button>
+            </form>
+    }
+    else
+    {
+                 <p><a asp-page="../auth/Index">Login or Register</a> to Bookmark Service</p>
+    }
+    <hr />
+    <div class="row service-row">
+        <div class="col-md-6">
+            <p><b>Description</b><br />
+            @if(Model.Service.Description == null || Model.Service.Description.Trim() == "")
+                {
+                    <span>Not Available</span>
+                }
+                else
+                {
+                    @Model.Service.Description                    
+                }
+        </div>
+        <div class="col-md-6">
+            @if(Model.Service.ImageData != null && Model.Service.ImageData.Count() > 0){
+			    <img class="service-image" src="@string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(Model.Service.ImageData))" alt-text="@Model.Service.ImageAltText" />
+            }
+            else{
+            <p>Image unavailable</p>
+            }
+        </div>
+        <div class="col-md-6 form-group">
+            <p>
+                <b class="control-label">Phone Number</b>
+                <br />
+                @if(Model.Service.PhoneNum == null || Model.Service.PhoneNum.Trim() == "")
+                {
+                    <span>Not Available</span>
+                }
+                else
+                {
+                    @Model.Service.PhoneNum
+                }
+            </p>
+            <p>
+                <b class="control-label">Email Address</b>
+                <br />
+                @if(Model.Service.Email == null || Model.Service.Email.Trim() == "")
+                {
+                    <span>Not Available</span>
+                }
+                else
+                {
+                    <a href="mailto:@Model.Service.Email">@Model.Service.Email</a>               
+                }
+            </p>
+            <p>
+                <b class="control-label">Address</b>
+                <br />
+                @if((Model.Service.Address == null || Model.Service.Address.Trim() == "") && (Model.Service.Town == null || Model.Service.Town.Trim() == "") && (Model.Service.Postcode == null || Model.Service.Postcode.Trim() == ""))
+                {
+                    <span>Not Available</span>
+                }
+                else
+                {
+                    @if(Model.Service.Address != null && Model.Service.Address.Trim() != "") { <span>@Model.Service.Address</span><br /> } 
+                    @if(Model.Service.Town != null && Model.Service.Town.Trim() != "") { <span>@Model.Service.Town</span><br /> } 
+                    @if(Model.Service.Postcode != null && Model.Service.Postcode.Trim() != "") { <span>@Model.Service.Postcode</span> }
+                }
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p>
+                @Model.Service.Other
+            </p>
+            <p>
+                @if(Model.Service.WebLink == null || Model.Service.WebLink.Trim() == "")
+                {
+                    <span>No website available</span>
+                }
+                else
+                {
+                     <b>Further information can be found at</b> <a href='
+                        @((Model.Service.WebLink.StartsWith("https://") || Model.Service.WebLink.StartsWith("http://")) ? @Model.Service.WebLink : "https://" + @Model.Service.WebLink)'>@Model.Service.WebLink</a>
+                }
+               
+            </p>
+        </div>
+    </div>
+</div>
+<div>
+    
+
+    
+</div>
+
+@section Styles{
+    <style>
+        body {
+            background-image: url("/img/contact-bg.jpeg");
+        }
+    </style>
+}

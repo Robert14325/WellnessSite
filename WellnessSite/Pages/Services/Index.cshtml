@@ -1,0 +1,64 @@
+﻿@page
+@model WellnessSite.Pages.Services.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Prefs"] = Model.p.ToString();
+}
+<div class="row">
+    <div class="col-md-3 col-1"></div>
+    <div class="col-md-6 col-10">
+        <div class="centre"><h1>A-Z Services</h1></div>
+        <div class="centre">
+            <form>
+                <div class="form-group">
+                    <input asp-for="Query" plaeholder="Search" class="form-control"/>
+                    <input type="submit" asp-route-Query="@Model.Query" value="Search" class="btn btn-info">
+                    <a asp-page="./Index" class="btn btn-info">View all</a>
+                </div>
+            </form>
+            <p>
+            @for(int letter = 65; letter < 91; letter++)
+            {
+                <a asp-page="./Index" asp-route-Query="cat-@Convert.ToChar(letter)" class="btn btn-info a-z-button">@Convert.ToChar(letter)</a>
+            }
+            </p>
+        </div>
+    </div>
+    <div class="col-md-3 col-1"></div>
+</div>
+
+
+<div class="hexbox">
+    @{
+        int i = 0;
+        @if(Model.Service.Count() < 1)
+        {
+            <div class="centre"><h2>No Services Available</h2></div>
+        }
+        @foreach (var item in Model.Service)
+        {
+            <a asp-page="./Service" asp-route-id="@item.Id">
+                <div class="hex xs-@(i%2) sm-@(i%3) md-@(i%5) lg-@(i%7) xl-@(i%9)">
+                    <div class="small">
+                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                    </div>
+                </div>
+            </a>
+            i++;
+        }
+    }
+</div>
+
+
+
+@section Styles{
+
+    <link rel="stylesheet" href="~/css/hex.css" asp-append-version="true" />
+}
+
+@section Scripts{
+    <script>
+        changeHexMediaQueries(@(Math.Ceiling(Model.p.FontSize * 20 * 1.1547)))
+    </script>
+}
